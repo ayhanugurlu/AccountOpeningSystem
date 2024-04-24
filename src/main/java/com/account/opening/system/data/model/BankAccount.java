@@ -1,4 +1,4 @@
-package com.account.opening.system.data;
+package com.account.opening.system.data.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;

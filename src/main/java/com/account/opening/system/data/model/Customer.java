@@ -1,4 +1,4 @@
-package com.account.opening.system.data;
+package com.account.opening.system.data.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,6 +16,8 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     Long id;
+
+    String username;
 
     String name;
 
