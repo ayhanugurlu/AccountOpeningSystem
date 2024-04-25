@@ -1,15 +1,17 @@
 package com.account.opening.system.service;
 
 import com.account.opening.system.service.dto.CustomerDTO;
+import com.account.opening.system.service.dto.UserRegistrationResponseDTO;
 
 public interface CustomerService {
 
     /**
      * Create a new customer
+     *
      * @param customerDTO
      * @return iban
      */
-    String createCustomer(CustomerDTO customerDTO);
+    UserRegistrationResponseDTO createCustomer(CustomerDTO customerDTO);
 
     /**
      * Get customer by iban
