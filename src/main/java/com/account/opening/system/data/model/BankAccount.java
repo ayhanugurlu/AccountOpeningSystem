@@ -19,4 +19,12 @@ public class BankAccount {
     Long id;
 
     String iban;
+
+    String accountType;
+
+    String currency;
+
+    String status;
+
+    Double balance;
 }
