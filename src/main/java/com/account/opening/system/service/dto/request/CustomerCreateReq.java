@@ -7,5 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 
 public record CustomerCreateReq(String name, String username, @JsonFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
-                                AddressDTO addressDTO, String documentId) {
+                                AddressDTO addressDTO, String documentId, String currency, String status,
+                                String accountType,
+                                Double balance) {
 }

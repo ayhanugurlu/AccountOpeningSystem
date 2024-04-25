@@ -4,11 +4,10 @@ import com.account.opening.system.service.CustomerService;
 import com.account.opening.system.service.dto.response.BankAccountOverviewResp;
 import com.account.opening.system.service.dto.request.CustomerCreateReq;
 import com.account.opening.system.service.dto.response.UserRegistrationRes;
+import jakarta.persistence.PreRemove;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +22,8 @@ public class CustomerController {
         return customerService.createCustomer(customerDTO);
     }
 
-    @PostMapping("/overview/{username}")
+    @GetMapping("/overview/{username}")
+    @PreAuthorize("hasRole('USER')")
     public List<BankAccountOverviewResp> getCustomerOverview(@PathVariable String username) {
         return customerService.getCustomerOverview(username);
     }

@@ -8,8 +8,9 @@ import com.account.opening.system.data.model.Customer;
 import com.account.opening.system.exception.IllegalCountryException;
 import com.account.opening.system.exception.UsernameAlreadyExists;
 import com.account.opening.system.service.dto.AddressDTO;
-import com.account.opening.system.service.dto.CustomerDTO;
-import com.account.opening.system.service.dto.UserRegistrationResponseDTO;
+import com.account.opening.system.service.dto.request.CustomerCreateReq;
+import com.account.opening.system.service.dto.response.UserRegistrationRes;
+import com.account.opening.system.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -37,7 +38,7 @@ class CustomerServiceImplTest {
         // Given
         LocalDate date = LocalDate.parse("2018-05-05");
         AddressDTO addressDTO = new AddressDTO("6846", "Amsterdam", "Amsterdam", "Arnhem", "NL");
-        CustomerDTO customerDTO = new CustomerDTO("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123");
+        CustomerCreateReq customerDTO = new CustomerCreateReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123");
         ReflectionTestUtils.setField(customerService, "allowedCountries", new String[]{"NL"});
         ReflectionTestUtils.setField(customerService, "bankCode", "ABNA");
         ReflectionTestUtils.setField(customerService, "bankAccountLength", 10);
@@ -66,13 +67,13 @@ class CustomerServiceImplTest {
                 .id(1L)
                 .iban("NL91ABNA0417164300")
                 .build());
-        UserRegistrationResponseDTO userRegistrationResponseDTO = customerService.createCustomer(customerDTO);
+        UserRegistrationRes userRegistrationRes = customerService.createCustomer(customerDTO);
 
 
         // Then
-        assertNotNull(userRegistrationResponseDTO);
-        assertEquals("john.doe", userRegistrationResponseDTO.username());
-        assertNotNull(userRegistrationResponseDTO.password());
+        assertNotNull(userRegistrationRes);
+        assertEquals("john.doe", userRegistrationRes.username());
+        assertNotNull(userRegistrationRes.password());
     }
 
     @Test
@@ -80,7 +81,7 @@ class CustomerServiceImplTest {
         // Given
         LocalDate date = LocalDate.parse("2018-05-05");
         AddressDTO addressDTO = new AddressDTO("6846", "Amsterdam", "Amsterdam", "Arnhem", "AB");
-        CustomerDTO customerDTO = new CustomerDTO("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123");
+        CustomerCreateReq customerDTO = new CustomerCreateReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123");
         ReflectionTestUtils.setField(customerService, "allowedCountries", new String[]{"NL","BE"});
         ReflectionTestUtils.setField(customerService, "bankCode", "ABNA");
         ReflectionTestUtils.setField(customerService, "bankAccountLength", 10);
@@ -98,7 +99,7 @@ class CustomerServiceImplTest {
         // Given
         LocalDate date = LocalDate.parse("2018-05-05");
         AddressDTO addressDTO = new AddressDTO("6846", "Amsterdam", "Amsterdam", "Arnhem", "NL");
-        CustomerDTO customerDTO = new CustomerDTO("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123");
+        CustomerCreateReq customerDTO = new CustomerCreateReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123");
         ReflectionTestUtils.setField(customerService, "allowedCountries", new String[]{"NL","BE"});
         ReflectionTestUtils.setField(customerService, "bankCode", "ABNA");
         ReflectionTestUtils.setField(customerService, "bankAccountLength", 10);

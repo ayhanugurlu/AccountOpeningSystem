@@ -52,6 +52,9 @@ public class CustomerServiceImpl implements CustomerService {
                         .country()).city(customerDTO.addressDTO().city())
                 .build();
         BankAccount bankAccount = BankAccount.builder()
+                .currency(customerDTO.currency())
+                .accountType(customerDTO.accountType())
+                .balance(customerDTO.balance())
                 .build();
         Customer customer = Customer.builder()
                 .name(customerDTO.name())
