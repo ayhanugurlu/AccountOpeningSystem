@@ -6,6 +6,7 @@ import com.account.opening.system.data.model.Address;
 import com.account.opening.system.data.model.BankAccount;
 import com.account.opening.system.data.model.Customer;
 import com.account.opening.system.exception.BankAccountNotFoundException;
+import com.account.opening.system.exception.CustomerAgeLimitException;
 import com.account.opening.system.exception.IllegalCountryException;
 import com.account.opening.system.exception.UsernameAlreadyExists;
 import com.account.opening.system.service.CustomerService;
@@ -17,8 +18,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +42,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Value("${bank.account.length:10}")
     int bankAccountLength = 0;
 
+    private static final int AGE_LIMIT = 18;
+
     @Override
     public UserRegistrationRes createCustomer(CustomerCreateReq customerDTO) {
 
@@ -48,6 +54,12 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UsernameAlreadyExists("Username already exists");
         }
 
+
+        if (customerDTO.dateOfBirth().toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime().plusYears(AGE_LIMIT).isAfter(LocalDateTime.now())) {
+            throw new CustomerAgeLimitException("Customer must be at least 18 years old");
+        }
         Address address = Address.builder().country(customerDTO.addressDTO()
                         .country()).city(customerDTO.addressDTO().city())
                 .build();
@@ -77,7 +89,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .map(customer -> customer.getBankAccounts().stream()
                         .map(bankAccount -> new BankAccountOverviewResp(bankAccount.getId(), bankAccount.getIban(),
                                 bankAccount.getAccountType(), bankAccount.getCurrency(), bankAccount.getBalance(), bankAccount.getStatus())))
-                .map(bankAccountOverviewDTOS -> bankAccountOverviewDTOS.toList())
+                .map(Stream::toList)
                 .orElseThrow(() -> new BankAccountNotFoundException("Bank account not found"));
 
     }
