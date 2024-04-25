@@ -1,15 +1,18 @@
 package com.account.opening.system.data.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "customer")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Customer {
 
     @Id
@@ -21,7 +24,11 @@ public class Customer {
 
     String name;
 
-    String dateOfBirth;
+    String password;
+
+    Date dateOfBirth;
+
+    String documentId;
 
     @OneToOne(cascade = CascadeType.ALL)
     Address address;
