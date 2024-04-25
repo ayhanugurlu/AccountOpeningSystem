@@ -5,6 +5,7 @@ import com.account.opening.system.data.CustomerRepository;
 import com.account.opening.system.data.model.Address;
 import com.account.opening.system.data.model.BankAccount;
 import com.account.opening.system.data.model.Customer;
+import com.account.opening.system.exception.BankAccountNotFoundException;
 import com.account.opening.system.exception.IllegalCountryException;
 import com.account.opening.system.exception.UsernameAlreadyExists;
 import com.account.opening.system.service.dto.CustomerDTO;
@@ -20,10 +21,9 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
-    CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-
-    BankAccountRepository bAnkAccountRepository;
+    private final BankAccountRepository bAnkAccountRepository;
 
     @Value("${allowed.countries:NL}")
     String[] allowedCountries;
@@ -38,11 +38,12 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public UserRegistrationResponseDTO createCustomer(CustomerDTO customerDTO) {
 
-        if(Arrays.stream(allowedCountries).noneMatch(country -> country.equals(customerDTO.addressDTO().country()))){
+        if (Arrays.stream(allowedCountries).noneMatch(country -> country.equals(customerDTO.addressDTO().country()))) {
             throw new IllegalCountryException("Country not allowed");
         }
-        customerRepository.findByUsername(customerDTO.username()).ifPresent(customer -> new UsernameAlreadyExists("Username already exists"));
-
+        if (customerRepository.findByUsername(customerDTO.username()).isPresent()) {
+            throw new UsernameAlreadyExists("Username already exists");
+        }
 
         Address address = Address.builder().country(customerDTO.addressDTO()
                         .country()).city(customerDTO.addressDTO().city())
@@ -57,8 +58,8 @@ public class CustomerServiceImpl implements CustomerService {
                 .password(BankAccountUtil.generateRandomPassword())
                 .bankAccounts(Arrays.asList(bankAccount))
                 .address(address).build();
-        customerRepository.save(customer);
-        bankAccount.getId();
+        customer = customerRepository.save(customer);
+        bankAccount = customer.getBankAccounts().stream().findFirst().orElseThrow(() -> new BankAccountNotFoundException("Bank account not found"));
         bankAccount.setIban(BankAccountUtil.generateIBAN(customerDTO.addressDTO().country(), bankCode, bankAccount.getId(), bankAccountLength));
         bAnkAccountRepository.save(bankAccount);
         return new UserRegistrationResponseDTO(customer.getUsername(), customer.getPassword());

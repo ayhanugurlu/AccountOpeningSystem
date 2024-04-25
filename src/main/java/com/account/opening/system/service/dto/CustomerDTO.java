@@ -1,10 +1,10 @@
 package com.account.opening.system.service.dto;
 
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public record CustomerDTO(String name, String username, @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
+public record CustomerDTO(String name, String username, @JsonFormat(pattern = "yyyy-MM-dd") Date dateOfBirth,
                           AddressDTO addressDTO, String documentId) {
 }
