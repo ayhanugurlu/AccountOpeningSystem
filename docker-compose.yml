@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+  account_opening_system:
+    image: postgres:14.11-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=account_opening_system
+
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    networks:
+      default:
+
+  account-opening-system-service:
+    image: account-opening-system-service:0.0.1
+    depends_on:
+      account_opening_system:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://account_opening_system:5432/account_opening_system
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+
+    networks:
+      default:
+
+networks:
+  default:
