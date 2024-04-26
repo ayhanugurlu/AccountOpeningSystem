@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -85,12 +84,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<BankAccountOverviewResp> getCustomerOverview(String username) {
-        return customerRepository.findByUsername(username)
-                .map(customer -> customer.getBankAccounts().stream()
-                        .map(bankAccount -> new BankAccountOverviewResp(bankAccount.getId(), bankAccount.getIban(),
-                                bankAccount.getAccountType(), bankAccount.getCurrency(), bankAccount.getBalance(), bankAccount.getStatus())))
-                .map(Stream::toList)
-                .orElseThrow(() -> new BankAccountNotFoundException("Bank account not found"));
+        return customerRepository.findByUsername(username).map(Customer::getBankAccounts).orElseThrow(() -> new BankAccountNotFoundException("Bank account not found"))
+                .stream().map(bankAccount -> new BankAccountOverviewResp(bankAccount.getId(), bankAccount.getIban(), bankAccount.getAccountType(), bankAccount.getCurrency(), bankAccount.getBalance(), bankAccount.getStatus())).toList();
+
 
     }
 }

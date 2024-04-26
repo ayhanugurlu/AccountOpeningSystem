@@ -54,6 +54,10 @@ public class JwtServiceImpl implements JwtService {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
+    public boolean validateToken(String token) {
+        return  !isTokenExpired(token);
+    }
+
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username);

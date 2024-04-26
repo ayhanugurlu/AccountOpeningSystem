@@ -27,7 +27,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             return jwtService.generateToken(tokenRequest.username());
 
         } else {
-            throw new UsernameNotFoundException("invalid user request..!!");
+            throw new UsernameNotFoundException("invalid user request!!");
         }
     }
 }
+
