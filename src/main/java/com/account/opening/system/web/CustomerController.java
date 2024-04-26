@@ -25,6 +25,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(customerDTO));
     }
 
+    @Operation(summary = "Get customer overview")
     @GetMapping("/overview/{username}")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<List<BankAccountOverviewResp>> getCustomerOverview(@PathVariable String username) {
