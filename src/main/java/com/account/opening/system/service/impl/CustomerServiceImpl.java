@@ -66,6 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .currency(customerDTO.currency())
                 .accountType(customerDTO.accountType())
                 .balance(customerDTO.balance())
+                .status(customerDTO.status())
                 .build();
         Customer customer = Customer.builder()
                 .name(customerDTO.name())
