@@ -1,14 +1,13 @@
 package com.account.opening.system.config;
 
 
-import com.account.opening.system.service.impl.CustomUserDetailsServiceImpl;
 import com.account.opening.system.service.JwtService;
+import com.account.opening.system.service.impl.CustomUserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 /**
- * @author mhmdz
- * Created By Zeeshan on 20-05-2023
- * @project oauth-jwt
+ * Filter to intercept the request and validate the JWT token
  */
-
 @Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
