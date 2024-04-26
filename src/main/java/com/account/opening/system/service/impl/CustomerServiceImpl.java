@@ -10,9 +10,9 @@ import com.account.opening.system.exception.CustomerAgeLimitException;
 import com.account.opening.system.exception.IllegalCountryException;
 import com.account.opening.system.exception.UsernameAlreadyExists;
 import com.account.opening.system.service.CustomerService;
-import com.account.opening.system.service.dto.request.CustomerCreateReq;
+import com.account.opening.system.service.dto.request.CustomerRegistrationReq;
 import com.account.opening.system.service.dto.response.BankAccountOverviewResp;
-import com.account.opening.system.service.dto.response.UserRegistrationRes;
+import com.account.opening.system.service.dto.response.CustomerRegistrationRes;
 import com.account.opening.system.util.BankAccountUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +44,7 @@ public class CustomerServiceImpl implements CustomerService {
     private static final int AGE_LIMIT = 18;
 
     @Override
-    public UserRegistrationRes createCustomer(CustomerCreateReq customerDTO) {
+    public CustomerRegistrationRes createCustomer(CustomerRegistrationReq customerDTO) {
 
         if (Arrays.stream(allowedCountries).noneMatch(country -> country.equals(customerDTO.addressDTO().country()))) {
             throw new IllegalCountryException("Country not allowed");
@@ -79,7 +79,7 @@ public class CustomerServiceImpl implements CustomerService {
         bankAccount = customer.getBankAccounts().stream().findFirst().orElseThrow(() -> new BankAccountNotFoundException("Bank account not found"));
         bankAccount.setIban(BankAccountUtil.generateIBAN(customerDTO.addressDTO().country(), bankCode, bankAccount.getId(), bankAccountLength));
         bAnkAccountRepository.save(bankAccount);
-        return new UserRegistrationRes(customer.getUsername(), customer.getPassword());
+        return new CustomerRegistrationRes(customer.getUsername(), customer.getPassword());
     }
 
     @Override

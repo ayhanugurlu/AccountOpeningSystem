@@ -1,8 +1,8 @@
 package com.account.opening.system.service;
 
-import com.account.opening.system.service.dto.request.CustomerCreateReq;
+import com.account.opening.system.service.dto.request.CustomerRegistrationReq;
 import com.account.opening.system.service.dto.response.BankAccountOverviewResp;
-import com.account.opening.system.service.dto.response.UserRegistrationRes;
+import com.account.opening.system.service.dto.response.CustomerRegistrationRes;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public interface CustomerService {
      * @param customerDTO
      * @return iban
      */
-    UserRegistrationRes createCustomer(CustomerCreateReq customerDTO);
+    CustomerRegistrationRes createCustomer(CustomerRegistrationReq customerDTO);
 
     /**
      * Get customer overview

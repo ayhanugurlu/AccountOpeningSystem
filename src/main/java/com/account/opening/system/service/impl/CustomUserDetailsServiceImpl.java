@@ -28,12 +28,10 @@ public class CustomUserDetailsServiceImpl implements UserDetailsService {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         bCryptPasswordEncoder.encode(customer.getPassword());
         roles.add("USER");
-        UserDetails userDetails =
-                org.springframework.security.core.userdetails.User.builder()
+        return org.springframework.security.core.userdetails.User.builder()
                         .username(customer.getUsername())
                         .password(bCryptPasswordEncoder.encode(customer.getPassword()))
                         .roles(roles.toArray(new String[0]))
                         .build();
-        return userDetails;
     }
 }

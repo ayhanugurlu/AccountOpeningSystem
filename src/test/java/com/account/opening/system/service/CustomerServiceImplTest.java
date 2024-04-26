@@ -10,8 +10,8 @@ import com.account.opening.system.exception.CustomerAgeLimitException;
 import com.account.opening.system.exception.IllegalCountryException;
 import com.account.opening.system.exception.UsernameAlreadyExists;
 import com.account.opening.system.service.dto.AddressDTO;
-import com.account.opening.system.service.dto.request.CustomerCreateReq;
-import com.account.opening.system.service.dto.response.UserRegistrationRes;
+import com.account.opening.system.service.dto.request.CustomerRegistrationReq;
+import com.account.opening.system.service.dto.response.CustomerRegistrationRes;
 import com.account.opening.system.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,9 +30,9 @@ import static org.mockito.Mockito.when;
 
 class CustomerServiceImplTest {
 
-    CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
-    BankAccountRepository bankAccountRepository = Mockito.mock(BankAccountRepository.class);
-    private CustomerServiceImpl customerService = new CustomerServiceImpl(customerRepository, bankAccountRepository);
+    private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
+    private final BankAccountRepository bankAccountRepository = Mockito.mock(BankAccountRepository.class);
+    private final CustomerServiceImpl customerService = new CustomerServiceImpl(customerRepository, bankAccountRepository);
 
 
     @Test
@@ -40,7 +40,7 @@ class CustomerServiceImplTest {
         // Given
         LocalDate date = LocalDate.parse("2018-05-05");
         AddressDTO addressDTO = new AddressDTO("6846", "Amsterdam", "Amsterdam", "Arnhem", "NL");
-        CustomerCreateReq customerDTO = new CustomerCreateReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
+        CustomerRegistrationReq customerDTO = new CustomerRegistrationReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
         ReflectionTestUtils.setField(customerService, "allowedCountries", new String[]{"NL"});
         ReflectionTestUtils.setField(customerService, "bankCode", "ABNA");
         ReflectionTestUtils.setField(customerService, "bankAccountLength", 10);
@@ -69,7 +69,7 @@ class CustomerServiceImplTest {
                 .id(1L)
                 .iban("NL91ABNA0417164300")
                 .build());
-        UserRegistrationRes userRegistrationRes = customerService.createCustomer(customerDTO);
+        CustomerRegistrationRes userRegistrationRes = customerService.createCustomer(customerDTO);
 
 
         // Then
@@ -83,7 +83,7 @@ class CustomerServiceImplTest {
         // Given
         LocalDate date = LocalDate.parse("2018-05-05");
         AddressDTO addressDTO = new AddressDTO("6846", "Amsterdam", "Amsterdam", "Arnhem", "AB");
-        CustomerCreateReq customerDTO = new CustomerCreateReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
+        CustomerRegistrationReq customerDTO = new CustomerRegistrationReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
         ReflectionTestUtils.setField(customerService, "allowedCountries", new String[]{"NL", "BE"});
         ReflectionTestUtils.setField(customerService, "bankCode", "ABNA");
         ReflectionTestUtils.setField(customerService, "bankAccountLength", 10);
@@ -101,7 +101,7 @@ class CustomerServiceImplTest {
         // Given
         LocalDate date = LocalDate.parse("2018-05-05");
         AddressDTO addressDTO = new AddressDTO("6846", "Amsterdam", "Amsterdam", "Arnhem", "NL");
-        CustomerCreateReq customerDTO = new CustomerCreateReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
+        CustomerRegistrationReq customerDTO = new CustomerRegistrationReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
         ReflectionTestUtils.setField(customerService, "allowedCountries", new String[]{"NL", "BE"});
         ReflectionTestUtils.setField(customerService, "bankCode", "ABNA");
         ReflectionTestUtils.setField(customerService, "bankAccountLength", 10);
@@ -136,7 +136,7 @@ class CustomerServiceImplTest {
         // Given
         LocalDate date = LocalDate.parse("2020-05-05");
         AddressDTO addressDTO = new AddressDTO("6846", "Amsterdam", "Amsterdam", "Arnhem", "NL");
-        CustomerCreateReq customerDTO = new CustomerCreateReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
+        CustomerRegistrationReq customerDTO = new CustomerRegistrationReq("John", "john.doe", new Date(date.toEpochDay()), addressDTO, "AB123", "EUR", "ACTIVE", "SAVINGS", 100.0);
         ReflectionTestUtils.setField(customerService, "allowedCountries", new String[]{"NL", "BE"});
         ReflectionTestUtils.setField(customerService, "bankCode", "ABNA");
         ReflectionTestUtils.setField(customerService, "bankAccountLength", 10);
