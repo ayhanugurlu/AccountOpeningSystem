@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
+import org.springframework.test.context.TestPropertySource;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource("/test.properties")
+
 class AccountOpeningSystemApplicationTests {
 
     @LocalServerPort

@@ -22,6 +22,7 @@
         <org.iban4j.version>1.0.0</org.iban4j.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
         <org.codehaus.mojo.version>3.2.0</org.codehaus.mojo.version>
+        <com.github.vladimir-bukhtoyarov.bucket4j.version>8.0.1</com.github.vladimir-bukhtoyarov.bucket4j.version>
     </properties>
     <dependencies>
         <dependency>
@@ -51,6 +52,13 @@
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
             <version>${org.springdoc.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.vladimir-bukhtoyarov</groupId>
+            <artifactId>bucket4j-core</artifactId>
+            <version>${com.github.vladimir-bukhtoyarov.bucket4j.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
