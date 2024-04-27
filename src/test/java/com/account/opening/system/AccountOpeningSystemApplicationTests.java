@@ -2,6 +2,7 @@ package com.account.opening.system;
 
 import com.account.opening.system.service.dto.AddressDTO;
 import com.account.opening.system.service.dto.request.CustomerRegistrationReq;
+import com.account.opening.system.service.dto.request.LogonRequest;
 import com.account.opening.system.service.dto.request.TokenRequest;
 import com.account.opening.system.service.dto.response.BankAccountOverviewResp;
 import com.account.opening.system.service.dto.response.CustomerRegistrationRes;
@@ -200,7 +201,8 @@ class AccountOpeningSystemApplicationTests {
         String urlLogin = String.format("http://localhost:%d/logon", localPort);
 
         // when
-        ResponseEntity<?> response = testRestTemplate.postForEntity(urlLogin, "token", String.class);
+        LogonRequest logonRequest = new LogonRequest("token");
+        ResponseEntity<?> response = testRestTemplate.postForEntity(urlLogin, logonRequest, String.class);
 
         // then
         assertEquals(HttpStatus.FORBIDDEN, response.getStatusCode());
