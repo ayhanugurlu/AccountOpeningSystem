@@ -12,7 +12,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcConfig implements WebMvcConfigurer {
 
 
-
     @Value("${rate.limit.token:2}")
     private int rateLimitToken;
 
@@ -21,8 +20,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RateLimitInterceptor(rateLimitToken, rateLimitTime   ))
-                .addPathPatterns("/overview/**","/token","/register");
+        registry.addInterceptor(new RateLimitInterceptor(rateLimitToken, rateLimitTime))
+                .addPathPatterns("/overview/**", "/token", "/register");
 
     }
 

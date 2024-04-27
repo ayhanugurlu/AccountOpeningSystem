@@ -17,7 +17,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 
 
     public RateLimitInterceptor(int rateLimitToken, int rateLimitTime) {
-        Refill refill = Refill.intervally(rateLimitToken, Duration.ofMinutes(rateLimitTime));
+        Refill refill = Refill.intervally(rateLimitToken, Duration.ofSeconds(rateLimitTime));
         Bandwidth limit = Bandwidth.classic(rateLimitToken, refill);
         bucket = Bucket.builder().addLimit(limit).build();
     }

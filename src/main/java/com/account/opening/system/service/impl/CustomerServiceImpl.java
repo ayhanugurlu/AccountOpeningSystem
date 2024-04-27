@@ -31,7 +31,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final BankAccountRepository bAnkAccountRepository;
 
-    @Value("${allowed.countries:NL}")
+    @Value("${allowed.countries:NL,BEL}")
     String[] allowedCountries;
 
     @Value("${bank.code:ABNA}")
@@ -42,6 +42,10 @@ public class CustomerServiceImpl implements CustomerService {
     int bankAccountLength = 0;
 
     private static final int AGE_LIMIT = 18;
+
+
+    private static final String COUNTRY_CODE = "NL";
+
 
     @Override
     public CustomerRegistrationRes createCustomer(CustomerRegistrationReq customerDTO) {
@@ -78,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .address(address).build();
         customer = customerRepository.save(customer);
         bankAccount = customer.getBankAccounts().stream().findFirst().orElseThrow(() -> new BankAccountNotFoundException("Bank account not found"));
-        bankAccount.setIban(BankAccountUtil.generateIBAN(customerDTO.addressDTO().country(), bankCode, bankAccount.getId(), bankAccountLength));
+        bankAccount.setIban(BankAccountUtil.generateIBAN(COUNTRY_CODE, bankCode, bankAccount.getId(), bankAccountLength));
         bAnkAccountRepository.save(bankAccount);
         return new CustomerRegistrationRes(customer.getUsername(), customer.getPassword());
     }

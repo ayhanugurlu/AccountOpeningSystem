@@ -30,6 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class AccountOpeningSystemApplicationTests {
 
+
     @LocalServerPort
     int localPort;
 

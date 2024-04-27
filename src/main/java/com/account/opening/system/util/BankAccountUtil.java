@@ -16,6 +16,7 @@ public class BankAccountUtil {
 
     public static String generateIBAN(String cc, String bankCode, Long accountNumber, int bankAccountLength) {
         CountryCode countryCode = Optional.ofNullable(CountryCode.getByCode(cc)).orElseThrow(() -> new IllegalArgumentException("Invalid country code"));
+
         Iban iban = new Iban.Builder()
                 .countryCode(countryCode)
                 .bankCode(bankCode)

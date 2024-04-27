@@ -53,6 +53,30 @@ SPRING_DATASOURCE_PASSWORD={db_password}
 SPRING_JPA_DATABASE-PLATFORM=org.hibernate.dialect.PostgreSQLDialect
 ```
 
+If you want to change country list, you can change the country list in the `application.properties` file or environment variables.
+
+```properties
+allowed.countries=NL,BEL,DE
+```
+```properties
+ALLOWED_COUNTRIES=NL,BEL,DE
+```
+
+Application has rate limiting mechanism, you can change the rate limit configuration via environment variables.
+
+```properties
+rate.limit=2
+rate.limit.period=1 // in seconds
+```
+```properties
+RATE_LIMIT=10 
+RATE_LIMIT_PERIOD=1 // in seconds
+```
+
+
+
+
+
 To run the project with docker, run the following command:
 
 ```bash
